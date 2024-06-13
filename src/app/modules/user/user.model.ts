@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
-import { TUser } from './user.interface'
+import { TUser, UserModel } from './user.interface'
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<TUser, UserModel>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -11,7 +11,6 @@ const userSchema = new Schema<TUser>(
       type: String,
       enum: ['admin', 'user'],
       default: 'user',
-      required: true,
     },
     address: { type: String, required: true },
   },
@@ -20,4 +19,9 @@ const userSchema = new Schema<TUser>(
   },
 )
 
-export const User = model<TUser>('user', userSchema)
+// Static method to find user by email
+userSchema.statics.isUserExistsByEmail = async function (email: string) {
+  return await this.findOne({ email })
+}
+
+export const User = model<TUser, UserModel>('user', userSchema)
