@@ -34,7 +34,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     // checking if the user is already deleted
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized  hi!')
+      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!')
     }
 
     req.user = decoded as JwtPayload

@@ -18,7 +18,7 @@ const getAvailableSlots = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Slot created successfully!',
+    message: 'Slot retrieved successfully!',
     data: result,
   })
 })
