@@ -7,8 +7,9 @@ import { User } from '../user/user.model'
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
+  console.log(payload)
   const user = await User.isUserExistsByEmail(payload.email)
-
+  console.log(user)
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !')
   }
@@ -21,7 +22,7 @@ const loginUser = async (payload: TLoginUser) => {
   //create token and sent to the  client
 
   const jwtPayload = {
-    userId: user.email,
+    email: user.email,
     role: user.role,
   }
 
