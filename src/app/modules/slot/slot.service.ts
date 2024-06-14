@@ -42,6 +42,16 @@ const createSlotIntoDB = async (serviceData: ServiceData): Promise<TSlot[]> => {
   return createdSlots.map((slot) => slot.toObject() as TSlot) // Convert to plain objects
 }
 
+const getAllAvailableSlotsFromDB = async () => {
+  const result = await Slot.find({ isBooked: { $ne: 'booked' } }).populate({
+    path: 'service',
+    match: { isDeleted: { $ne: true } },
+  })
+  const filteredResult = result.filter((slot) => slot.service !== null)
+  return filteredResult
+}
+
 export const slotServices = {
   createSlotIntoDB,
+  getAllAvailableSlotsFromDB,
 }
