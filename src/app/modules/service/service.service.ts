@@ -6,6 +6,12 @@ const createServiceIntoDb = async (serviceData: TService) => {
   return result
 }
 
+const getSingleServiceFromDB = async (id: string) => {
+  const result = await Service.findById(id)
+  return result
+}
+
 export const serviceServices = {
   createServiceIntoDb,
+  getSingleServiceFromDB,
 }

@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { serviceServices } from './service.service'
+import catchAsync from '../../utils/catchAsync'
+import sendResponse from '../../utils/sendResponse'
+import httpStatus from 'http-status'
+import { Service } from './service.model'
 
 const createService = async (req: Request, res: Response) => {
   try {
@@ -22,6 +26,31 @@ const createService = async (req: Request, res: Response) => {
   }
 }
 
+const getSingleService = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result = await serviceServices.getSingleServiceFromDB(id)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Service is retrieved successfully',
+    data: result,
+  })
+})
+
+const getAllServices = catchAsync(async (req, res) => {
+  const result = await Service.find()
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Service is retrieved successfully',
+    data: result,
+  })
+})
+
 export const serviceControllers = {
   createService,
+  getSingleService,
+  getAllServices,
 }
