@@ -15,18 +15,15 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!')
     }
-    console.log(token)
     // checking if the given token is valid
     const decoded = jwt.verify(
       token,
       config.jwt_access_secret as string,
     ) as JwtPayload
 
-    console.log(decoded)
-
     const { role, email } = decoded
 
-    console.log(email)
+    // console.log(email)
 
     // checking if the user is exist
     const user = await User.isUserExistsByEmail(email)
