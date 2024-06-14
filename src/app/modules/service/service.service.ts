@@ -11,7 +11,16 @@ const getSingleServiceFromDB = async (id: string) => {
   return result
 }
 
+const updateServiceIntoDB = async (id: string, payload: Partial<TService>) => {
+  const result = await Service.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  })
+  return result
+}
+
 export const serviceServices = {
   createServiceIntoDb,
   getSingleServiceFromDB,
+  updateServiceIntoDB,
 }
