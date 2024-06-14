@@ -39,7 +39,8 @@ const getSingleService = catchAsync(async (req, res) => {
 })
 
 const getAllServices = catchAsync(async (req, res) => {
-  const result = await Service.find()
+  // const result = await Service.find()
+  const result = await Service.aggregate([{ $match: { isDeleted: false } }])
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -62,9 +63,22 @@ const updateService = catchAsync(async (req, res) => {
   })
 })
 
+const deleteService = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result = await serviceServices.deleteServiceFromDB(id)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Service is deleted successfully',
+    data: result,
+  })
+})
+
 export const serviceControllers = {
   createService,
   getSingleService,
   getAllServices,
   updateService,
+  deleteService,
 }

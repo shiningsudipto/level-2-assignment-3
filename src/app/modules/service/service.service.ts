@@ -19,8 +19,19 @@ const updateServiceIntoDB = async (id: string, payload: Partial<TService>) => {
   return result
 }
 
+const deleteServiceFromDB = async (id: string) => {
+  const deletedFaculty = await Service.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  )
+
+  return deletedFaculty
+}
+
 export const serviceServices = {
   createServiceIntoDb,
   getSingleServiceFromDB,
   updateServiceIntoDB,
+  deleteServiceFromDB,
 }

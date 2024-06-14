@@ -8,6 +8,7 @@ const router = express.Router()
 router.post('/', auth(USER_ROLE.admin), serviceControllers.createService)
 router.get('/:id', serviceControllers.getSingleService)
 router.patch('/:id', serviceControllers.updateService)
+router.delete('/:id', serviceControllers.deleteService)
 router.get('/', serviceControllers.getAllServices)
 
 export const ServiceRoutes = router
