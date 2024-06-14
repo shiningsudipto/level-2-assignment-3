@@ -20,7 +20,7 @@ const createSlotIntoDB = async (serviceData: ServiceData): Promise<TSlot[]> => {
     throw new Error('Service not found')
   }
 
-  const serviceDuration = service.duration // Assuming the service schema has a 'duration' field
+  const serviceDuration = service.duration
   if (!serviceDuration) {
     throw new Error('Service duration is not defined')
   }
