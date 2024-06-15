@@ -5,8 +5,8 @@ import { slotServices } from './slot.service'
 import { handleNoDataResponse } from '../../errors/handleNoData'
 
 const createSlot = catchAsync(async (req, res) => {
-  const ServiceData = req.body
-  const result = await slotServices.createSlotIntoDB(ServiceData)
+  const slotData = req.body
+  const result = await slotServices.createSlotIntoDB(slotData)
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

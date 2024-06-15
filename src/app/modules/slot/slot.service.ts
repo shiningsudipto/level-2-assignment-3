@@ -6,16 +6,16 @@ import { TSlot } from './slot.interface'
 import { generateSlots } from './slot.utils'
 import { Service } from '../service/service.model'
 
-interface ServiceData {
+interface SlotData {
   service: string
   date: Date
   startTime: string
   endTime: string
 }
 
-const createSlotIntoDB = async (serviceData: ServiceData): Promise<TSlot[]> => {
+const createSlotIntoDB = async (slotData: SlotData): Promise<TSlot[]> => {
   // Fetch the service to get its duration
-  const service = await Service.findById(serviceData.service)
+  const service = await Service.findById(slotData.service)
   if (!service) {
     throw new Error('Service not found')
   }
@@ -26,14 +26,14 @@ const createSlotIntoDB = async (serviceData: ServiceData): Promise<TSlot[]> => {
   }
 
   const slots = generateSlots(
-    serviceData.startTime,
-    serviceData.endTime,
+    slotData.startTime,
+    slotData.endTime,
     serviceDuration,
   )
 
   const slotDocuments = slots.map((slot) => ({
-    service: new Types.ObjectId(serviceData.service),
-    date: serviceData.date,
+    service: new Types.ObjectId(slotData.service),
+    date: slotData.date,
     startTime: slot.startTime,
     endTime: slot.endTime,
   }))
