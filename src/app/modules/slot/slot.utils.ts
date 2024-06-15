@@ -34,7 +34,8 @@ const timeToMinutes = (time: string): number => {
 const minutesToTime = (minutes: number): string => {
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
-  return `${padZero(hours)}:${padZero(mins)}`
+  return `${twoDigitFormattedNumber(hours)}:${twoDigitFormattedNumber(mins)}`
 }
 
-const padZero = (num: number): string => (num < 10 ? `0${num}` : `${num}`)
+const twoDigitFormattedNumber = (num: number): string =>
+  num < 10 ? `0${num}` : `${num}`
