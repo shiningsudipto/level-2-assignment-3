@@ -16,7 +16,7 @@ router.post(
   serviceControllers.createService,
 )
 router.get('/:id', serviceControllers.getSingleService)
-router.patch(
+router.put(
   '/:id',
   auth(USER_ROLE.admin),
   validateRequest(ServiceValidations.updateServiceValidationSchema),

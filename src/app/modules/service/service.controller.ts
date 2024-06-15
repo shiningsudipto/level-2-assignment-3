@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
 import { serviceServices } from './service.service'
 import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
@@ -13,7 +12,7 @@ const createService = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Slot created successfully!',
+    message: 'Service created successfully',
     data: result,
   })
 })
@@ -28,7 +27,7 @@ const getSingleService = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Service is retrieved successfully',
+    message: 'Service retrieved successfully',
     data: result,
   })
 })
@@ -44,7 +43,7 @@ const getAllServices = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Service is retrieved successfully',
+    message: 'Services retrieved successfully',
     data: result,
   })
 })
@@ -57,7 +56,7 @@ const updateService = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Service is updated successfully',
+    message: 'Service updated successfully',
     data: result,
   })
 })
@@ -69,7 +68,7 @@ const deleteService = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Service is deleted successfully',
+    message: 'Service deleted successfully',
     data: result,
   })
 })

@@ -17,7 +17,7 @@ const createBooking = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Slot created successfully!',
+    message: 'Booking successful',
     data: result,
   })
 })
@@ -37,7 +37,7 @@ const getAllBookings = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Service is retrieved successfully',
+    message: 'All bookings retrieved successfully',
     data: result,
   })
 })

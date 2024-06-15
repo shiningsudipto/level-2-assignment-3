@@ -32,11 +32,19 @@ userSchema.pre('save', async function (next) {
   next()
 })
 
+userSchema.methods.toJSON = function () {
+  const userObject = this.toObject()
+
+  delete userObject.password
+
+  return userObject
+}
+
 // set '' after saving password
-userSchema.post('save', function (doc, next) {
-  doc.password = ''
-  next()
-})
+// userSchema.post('save', function (doc, next) {
+//   doc.password = ''
+//   next()
+// })
 
 // Static method to find user by email
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
