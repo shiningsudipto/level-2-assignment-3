@@ -5,6 +5,7 @@ import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
 import httpStatus from 'http-status'
 import { Service } from './service.model'
+import { handleNoDataResponse } from '../../errors/handleNoData'
 
 const createService = async (req: Request, res: Response) => {
   try {
@@ -29,6 +30,9 @@ const createService = async (req: Request, res: Response) => {
 const getSingleService = catchAsync(async (req, res) => {
   const { id } = req.params
   const result = await serviceServices.getSingleServiceFromDB(id)
+  if (!result) {
+    return handleNoDataResponse(res)
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -41,6 +45,10 @@ const getSingleService = catchAsync(async (req, res) => {
 const getAllServices = catchAsync(async (req, res) => {
   // const result = await Service.find()
   const result = await Service.aggregate([{ $match: { isDeleted: false } }])
+
+  if (result?.length === 0) {
+    return handleNoDataResponse(res)
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

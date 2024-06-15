@@ -4,6 +4,7 @@ import sendResponse from '../../utils/sendResponse'
 import { getUserInfoFromToken } from '../../utils/getUserInfoFromToken'
 import { bookingServices } from './booking.service'
 import { Booking } from './booking.model'
+import { handleNoDataResponse } from '../../errors/handleNoData'
 
 const createBooking = catchAsync(async (req, res) => {
   const token = req.headers.authorization
@@ -28,6 +29,10 @@ const getAllBookings = catchAsync(async (req, res) => {
     .populate('service', '_id name description price duration isDeleted')
     .populate('slot', '_id service date startTime endTime isBooked')
     .lean()
+
+  if (result?.length === 0) {
+    return handleNoDataResponse(res)
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

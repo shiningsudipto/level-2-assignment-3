@@ -5,6 +5,7 @@ import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
 import httpStatus from 'http-status'
 import { getUserInfoFromToken } from '../../utils/getUserInfoFromToken'
+import { handleNoDataResponse } from '../../errors/handleNoData'
 
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -31,6 +32,10 @@ const getMyBookings = catchAsync(async (req, res) => {
   const { email } = getUserInfoFromToken(token as string)
 
   const result = await userServices.getMyBookingsFromDb(email)
+
+  if (!result || result?.length === 0) {
+    return handleNoDataResponse(res)
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
