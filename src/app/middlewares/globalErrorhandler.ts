@@ -11,10 +11,10 @@ import handleZodError from '../errors/handleZodError'
 import { TErrorSources } from '../interface/error'
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  //setting default values
+  // Set default values
   let statusCode = 500
   let message = 'Something went wrong!'
-  let errorSources: TErrorSources = [
+  let errorMessages: TErrorSources = [
     {
       path: '',
       message: 'Something went wrong',
@@ -23,50 +23,49 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err)
-    statusCode = simplifiedError?.statusCode
-    message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
-  } else if (err?.name === 'ValidationError') {
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorMessages = simplifiedError.errorSources
+  } else if (err.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err)
-    statusCode = simplifiedError?.statusCode
-    message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
-  } else if (err?.name === 'CastError') {
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorMessages = simplifiedError.errorSources
+  } else if (err.name === 'CastError') {
     const simplifiedError = handleCastError(err)
-    statusCode = simplifiedError?.statusCode
-    message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
-  } else if (err?.code === 11000) {
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorMessages = simplifiedError.errorSources
+  } else if (err.code === 11000) {
     const simplifiedError = handleDuplicateError(err)
-    statusCode = simplifiedError?.statusCode
-    message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorMessages = simplifiedError.errorSources
   } else if (err instanceof AppError) {
-    statusCode = err?.statusCode
+    statusCode = err.statusCode
     message = err.message
-    errorSources = [
+    errorMessages = [
       {
         path: '',
-        message: err?.message,
+        message: err.message,
       },
     ]
   } else if (err instanceof Error) {
     message = err.message
-    errorSources = [
+    errorMessages = [
       {
         path: '',
-        message: err?.message,
+        message: err.message,
       },
     ]
   }
 
-  //ultimate return
-  return res.status(statusCode).json({
+  // Return formatted error response
+  res.status(statusCode).json({
     success: false,
     message,
-    errorSources,
-    err,
-    stack: config.node_env === 'development' ? err?.stack : null,
+    errorMessages,
+    stack: config.node_env === 'development' ? err.stack : undefined,
   })
 }
 

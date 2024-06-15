@@ -14,7 +14,10 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     // checking if the token is missing
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!')
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You have no access to this route',
+      )
     }
     // checking if the given token is valid
     const decoded = jwt.verify(
@@ -30,12 +33,18 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const user = await User.isUserExistsByEmail(email)
 
     if (!user) {
-      throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !')
+      throw new AppError(
+        httpStatus.NOT_FOUND,
+        'You have no access to this route',
+      )
     }
     // checking if the user is already deleted
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!')
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You have no access to this route',
+      )
     }
 
     req.user = decoded as JwtPayload
