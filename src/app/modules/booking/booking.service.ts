@@ -1,10 +1,13 @@
 import { Service } from '../service/service.model'
 import { Slot } from '../slot/slot.model'
 import { User } from '../user/user.model'
-import { TBooking } from './booking.interface'
+import { TBooking, TBookingRequest } from './booking.interface'
 import { Booking } from './booking.model'
 
-const createBookingIntoDB = async (email: string, bookingData: TBooking) => {
+const createBookingIntoDB = async (
+  email: string,
+  bookingData: TBookingRequest,
+) => {
   //   console.log(bookingData)
   const userInfo = await User.findOne({ email })
   if (!userInfo) {

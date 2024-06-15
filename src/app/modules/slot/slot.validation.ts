@@ -28,10 +28,12 @@ const createSlotValidationSchema = z.object({
         invalid_type_error: 'End time must be a string',
       })
       .regex(/^([01]\d|2[0-3]):?([0-5]\d)$/, 'Invalid end time format'),
-    isBooked: z.enum(['booked', 'available', 'canceled'], {
-      invalid_type_error:
-        'isBooked must be one of "booked", "available", "canceled"',
-    }),
+    isBooked: z
+      .enum(['booked', 'available', 'canceled'], {
+        invalid_type_error:
+          'isBooked must be one of "booked", "available", "canceled"',
+      })
+      .optional(),
   }),
 })
 

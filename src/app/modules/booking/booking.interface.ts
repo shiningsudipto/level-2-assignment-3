@@ -25,3 +25,13 @@ export interface TBooking {
   manufacturingYear: number
   registrationPlate: string
 }
+
+export interface TBookingRequest {
+  serviceId: Types.ObjectId
+  slotId: Types.ObjectId
+  vehicleType: VehicleType
+  vehicleBrand: string
+  vehicleModel: string
+  manufacturingYear: number
+  registrationPlate: string
+}

@@ -4,6 +4,8 @@ import auth from '../../middlewares/auth'
 import { USER_ROLE } from '../user/user.constant'
 import validateRequest from '../../middlewares/validateRequest'
 import { ServiceValidations } from './service.validation'
+import { SlotValidations } from '../slot/slot.validation'
+import { slotController } from '../slot/slot.controller'
 
 const router = express.Router()
 // service creating route
@@ -22,5 +24,11 @@ router.patch(
 )
 router.delete('/:id', auth(USER_ROLE.admin), serviceControllers.deleteService)
 router.get('/', serviceControllers.getAllServices)
+router.post(
+  '/slots',
+  auth(USER_ROLE.admin),
+  validateRequest(SlotValidations.createSlotValidationSchema),
+  slotController.createSlot,
+)
 
 export const ServiceRoutes = router

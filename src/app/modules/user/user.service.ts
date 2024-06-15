@@ -10,12 +10,14 @@ const createUserIntoDb = async (userData: TUser) => {
 const getMyBookingsFromDb = async (email: string) => {
   // const result = await Booking.find().populate('customer')
   const user = await User.findOne({ email })
-  const result = await Booking.find({ customer: user._id })
-    .populate('service', '_id name description price duration')
-    .populate('slot', '_id service date startTime endTime isBooked')
-    .select('-customer')
-    .lean()
-  return result
+  if (user) {
+    const result = await Booking.find({ customer: user._id })
+      .populate('service', '_id name description price duration')
+      .populate('slot', '_id service date startTime endTime isBooked')
+      .select('-customer')
+      .lean()
+    return result
+  }
 }
 
 export const userServices = {
