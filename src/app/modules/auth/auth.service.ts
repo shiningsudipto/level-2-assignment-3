@@ -33,7 +33,7 @@ const loginUser = async (payload: TLoginUser) => {
   )
 
   return {
-    accessToken: `Bearer ${accessToken}`,
+    accessToken: accessToken,
     user,
   }
 }
