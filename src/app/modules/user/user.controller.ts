@@ -5,6 +5,7 @@ import sendResponse from '../../utils/sendResponse'
 import httpStatus from 'http-status'
 import { getUserInfoFromToken } from '../../utils/getUserInfoFromToken'
 import { handleNoDataResponse } from '../../errors/handleNoData'
+import { User } from './user.model'
 
 const createUser = catchAsync(async (req, res) => {
   const userData = req.body
@@ -13,6 +14,28 @@ const createUser = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User registered successfully',
+    data: result,
+  })
+})
+
+const getAllUser = catchAsync(async (req, res) => {
+  const result = await User.find()
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully',
+    data: result,
+  })
+})
+
+const updateUser = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const payload = req.body
+  const result = await userServices.updateUserIntoDB(id, payload)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully',
     data: result,
   })
 })
@@ -38,4 +61,6 @@ const getMyBookings = catchAsync(async (req, res) => {
 export const userControllers = {
   createUser,
   getMyBookings,
+  getAllUser,
+  updateUser,
 }

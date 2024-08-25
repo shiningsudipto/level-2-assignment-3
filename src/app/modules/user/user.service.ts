@@ -7,6 +7,14 @@ const createUserIntoDb = async (userData: TUser) => {
   return result
 }
 
+const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
+  const result = await User.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  })
+  return result
+}
+
 const getMyBookingsFromDb = async (email: string) => {
   // const result = await Booking.find().populate('customer')
   const user = await User.findOne({ email })
@@ -23,4 +31,5 @@ const getMyBookingsFromDb = async (email: string) => {
 export const userServices = {
   createUserIntoDb,
   getMyBookingsFromDb,
+  updateUserIntoDB,
 }
