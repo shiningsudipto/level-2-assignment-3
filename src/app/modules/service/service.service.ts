@@ -15,7 +15,14 @@ const getSingleServiceFromDB = async (id: string) => {
 const getSingleServiceDetailsFromDB = async (id: string) => {
   const serviceResult = await Service.findById(id)
   if (serviceResult) {
-    const slots = await Slot.find({ service: id })
+    const currentDate = new Date()
+    currentDate.setHours(0, 0, 0, 0) // Set time to the start of today
+
+    const slots = await Slot.find({
+      service: id,
+      date: { $gte: currentDate }, // Filter slots that are today or in the future
+    }).sort({ date: 1 })
+
     return {
       service: serviceResult,
       slots: slots,

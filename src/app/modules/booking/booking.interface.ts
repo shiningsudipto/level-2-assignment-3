@@ -24,6 +24,8 @@ export interface TBooking {
   vehicleModel: string
   manufacturingYear: number
   registrationPlate: string
+  status: string
+  tran_id: string
 }
 
 export interface TBookingRequest {
@@ -34,4 +36,5 @@ export interface TBookingRequest {
   vehicleModel: string
   manufacturingYear: number
   registrationPlate: string
+  amount: string
 }

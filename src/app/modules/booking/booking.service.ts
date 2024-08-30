@@ -1,3 +1,5 @@
+import { transactionId } from '../../utils/utils'
+import { initiatePayment } from '../payment/payment.utils'
 import { Service } from '../service/service.model'
 import { Slot } from '../slot/slot.model'
 import { User } from '../user/user.model'
@@ -22,8 +24,17 @@ const createBookingIntoDB = async (
     throw new Error('Slot not found')
   }
 
-  slotInfo.isBooked = 'booked'
-  await slotInfo.save()
+  const paymentData = {
+    transactionId: transactionId,
+    amount: bookingData.amount,
+    customerName: userInfo.name,
+    customerEmail: email,
+    customerPhone: userInfo.phone,
+    customerAddress: userInfo.address,
+    paidStatus: 'booked',
+  }
+
+  const paymentRes = await initiatePayment(paymentData)
 
   const newBookingData: Partial<TBooking> = {
     customer: userInfo._id,
@@ -34,17 +45,19 @@ const createBookingIntoDB = async (
     vehicleModel: bookingData.vehicleModel,
     manufacturingYear: bookingData.manufacturingYear,
     registrationPlate: bookingData.registrationPlate,
+    tran_id: transactionId,
+    status: 'pending',
   }
 
-  const newBooking = await Booking.create(newBookingData)
+  await Booking.create(newBookingData)
 
-  const populatedBooking = await Booking.findById(newBooking._id)
-    .populate('customer', '_id name email phone address')
-    .populate('service', '_id name description price duration isDeleted')
-    .populate('slot', '_id service date startTime endTime isBooked')
-    .lean()
+  // const populatedBooking = await Booking.findById(newBooking._id)
+  //   .populate('customer', '_id name email phone address')
+  //   .populate('service', '_id name description price duration isDeleted')
+  //   .populate('slot', '_id service date startTime endTime isBooked')
+  //   .lean()
 
-  return populatedBooking
+  return paymentRes
 }
 
 export const bookingServices = {
