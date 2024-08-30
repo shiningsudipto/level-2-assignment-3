@@ -7,7 +7,12 @@ const app: Application = express()
 
 // parser
 app.use(express.json())
-app.use(cors())
+app.use(
+  cors({
+    origin: ['http://localhost:5173'], // Allow your frontend URL
+    credentials: true, // Allow credentials to be included
+  }),
+)
 
 // application routes
 app.use('/api', router)

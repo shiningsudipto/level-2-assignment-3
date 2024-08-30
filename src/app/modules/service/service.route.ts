@@ -16,6 +16,7 @@ router.post(
   serviceControllers.createService,
 )
 router.get('/:id', serviceControllers.getSingleService)
+router.get('/details/:id', serviceControllers.getSingleServiceDetails)
 router.put(
   '/:id',
   auth(USER_ROLE.admin),

@@ -17,7 +17,6 @@ const getReviews = catchAsync(async (req, res) => {
 
 const createReview = catchAsync(async (req, res) => {
   const reviewData = req.body
-  console.log(reviewData)
   const result = await reviewServices.createReviewIntoDB(reviewData)
   sendResponse(res, {
     statusCode: httpStatus.OK,

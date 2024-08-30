@@ -1,3 +1,4 @@
+import { Slot } from '../slot/slot.model'
 import { TService } from './service.interface'
 import { Service } from './service.model'
 
@@ -9,6 +10,19 @@ const createServiceIntoDb = async (serviceData: TService) => {
 const getSingleServiceFromDB = async (id: string) => {
   const result = await Service.findById(id)
   return result
+}
+
+const getSingleServiceDetailsFromDB = async (id: string) => {
+  const serviceResult = await Service.findById(id)
+  if (serviceResult) {
+    const slots = await Slot.find({ service: id })
+    return {
+      service: serviceResult,
+      slots: slots,
+    }
+  } else {
+    throw new Error('Service not available')
+  }
 }
 
 const updateServiceIntoDB = async (id: string, payload: Partial<TService>) => {
@@ -32,6 +46,7 @@ const deleteServiceFromDB = async (id: string) => {
 export const serviceServices = {
   createServiceIntoDb,
   getSingleServiceFromDB,
+  getSingleServiceDetailsFromDB,
   updateServiceIntoDB,
   deleteServiceFromDB,
 }

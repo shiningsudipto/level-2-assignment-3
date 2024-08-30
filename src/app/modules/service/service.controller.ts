@@ -31,6 +31,20 @@ const getSingleService = catchAsync(async (req, res) => {
     data: result,
   })
 })
+const getSingleServiceDetails = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result = await serviceServices.getSingleServiceDetailsFromDB(id)
+  if (!result) {
+    return handleNoDataResponse(res)
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Service retrieved successfully',
+    data: result,
+  })
+})
 
 const getAllServices = catchAsync(async (req, res) => {
   const { search, sortOrder = 'asc', minDuration, maxDuration } = req.query
@@ -107,6 +121,7 @@ const deleteService = catchAsync(async (req, res) => {
 export const serviceControllers = {
   createService,
   getSingleService,
+  getSingleServiceDetails,
   getAllServices,
   updateService,
   deleteService,

@@ -5,9 +5,9 @@ const getReviewsFromDB = async (number: number) => {
   // Fetch the reviews based on the number
   let result
   if (number > 0) {
-    result = await Review.find().limit(number)
+    result = await Review.find().sort({ createdAt: -1 }).limit(number)
   } else {
-    result = await Review.find()
+    result = await Review.find().sort({ createdAt: -1 })
   }
 
   // Fetch all reviews for average rating calculation
@@ -22,10 +22,12 @@ const getReviewsFromDB = async (number: number) => {
     allReviews.length > 0
       ? (totalRatings / allReviews.length).toFixed(2)
       : '0.00'
+  const totalRating = allReviews?.length
 
   return {
     result,
     averageRating,
+    totalRating,
   }
 }
 

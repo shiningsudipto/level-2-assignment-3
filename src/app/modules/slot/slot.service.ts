@@ -50,8 +50,36 @@ const getAllAvailableSlotsFromDB = async () => {
   const filteredResult = result.filter((slot) => slot.service !== null)
   return filteredResult
 }
+const getAllSlotsFromDB = async () => {
+  const result = await Slot.find().populate({
+    path: 'service',
+    match: { isDeleted: { $ne: true } },
+  })
+  const filteredResult = result.filter((slot) => slot.service !== null)
+  return filteredResult
+}
+
+const updateSlotIntoDB = async (id: string, payload: Partial<TSlot>) => {
+  const slot = await Slot.findById(id)
+  // Check if the slot exists
+  if (!slot) {
+    throw new Error('Slot not found.')
+  }
+  // Check if the slot is already booked
+  if (slot.isBooked === 'booked') {
+    throw new Error('This slot is already booked and cannot be updated.')
+  }
+
+  const result = await Slot.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  })
+  return result
+}
 
 export const slotServices = {
   createSlotIntoDB,
   getAllAvailableSlotsFromDB,
+  updateSlotIntoDB,
+  getAllSlotsFromDB,
 }

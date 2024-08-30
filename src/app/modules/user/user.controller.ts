@@ -35,7 +35,7 @@ const updateUser = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User retrieved successfully',
+    message: 'User updated successfully',
     data: result,
   })
 })
