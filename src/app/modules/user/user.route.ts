@@ -9,9 +9,9 @@ const router = express.Router()
 // user routes
 router.get('/my-bookings', auth(USER_ROLE.user), userControllers.getMyBookings)
 router.get('/users', auth(USER_ROLE.admin), userControllers.getAllUser)
+router.get('/user-info', userControllers.getUserByEmail)
 router.put(
   '/update-user/:id',
-  auth(USER_ROLE.admin),
   validateRequest(UserValidations.updateUserValidationSchema),
   userControllers.updateUser,
 )

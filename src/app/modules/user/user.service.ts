@@ -14,6 +14,10 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
   })
   return result
 }
+const getUserFromDB = async (email: string) => {
+  const result = await User.findOne({ email })
+  return result
+}
 
 const getMyBookingsFromDb = async (email: string) => {
   // const result = await Booking.find().populate('customer')
@@ -23,6 +27,7 @@ const getMyBookingsFromDb = async (email: string) => {
       .populate('service', '_id name description price duration')
       .populate('slot', '_id service date startTime endTime isBooked')
       .select('-customer')
+      .sort({ createdAt: -1 })
       .lean()
     return result
   }
@@ -31,5 +36,6 @@ const getMyBookingsFromDb = async (email: string) => {
 export const userServices = {
   createUserIntoDb,
   getMyBookingsFromDb,
+  getUserFromDB,
   updateUserIntoDB,
 }

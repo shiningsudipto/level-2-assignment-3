@@ -43,18 +43,22 @@ const createSlotIntoDB = async (slotData: SlotData): Promise<TSlot[]> => {
 }
 
 const getAllAvailableSlotsFromDB = async () => {
-  const result = await Slot.find({ isBooked: { $ne: 'booked' } }).populate({
-    path: 'service',
-    match: { isDeleted: { $ne: true } },
-  })
+  const result = await Slot.find({ isBooked: { $ne: 'booked' } })
+    .populate({
+      path: 'service',
+      match: { isDeleted: { $ne: true } },
+    })
+    .sort({ createdAt: -1 })
   const filteredResult = result.filter((slot) => slot.service !== null)
   return filteredResult
 }
 const getAllSlotsFromDB = async () => {
-  const result = await Slot.find().populate({
-    path: 'service',
-    match: { isDeleted: { $ne: true } },
-  })
+  const result = await Slot.find()
+    .populate({
+      path: 'service',
+      match: { isDeleted: { $ne: true } },
+    })
+    .sort({ createdAt: -1 })
   const filteredResult = result.filter((slot) => slot.service !== null)
   return filteredResult
 }

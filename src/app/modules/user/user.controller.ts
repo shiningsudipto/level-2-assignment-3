@@ -27,6 +27,17 @@ const getAllUser = catchAsync(async (req, res) => {
     data: result,
   })
 })
+const getUserByEmail = catchAsync(async (req, res) => {
+  const token = req.headers.authorization
+  const { email } = getUserInfoFromToken(token as string)
+  const result = await userServices.getUserFromDB(email)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully',
+    data: result,
+  })
+})
 
 const updateUser = catchAsync(async (req, res) => {
   const { id } = req.params
@@ -62,5 +73,6 @@ export const userControllers = {
   createUser,
   getMyBookings,
   getAllUser,
+  getUserByEmail,
   updateUser,
 }
